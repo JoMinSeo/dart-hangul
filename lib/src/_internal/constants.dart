@@ -1,4 +1,7 @@
-// final jasoHangulNfd = [...'각힣'.normalize('NFD')].map(char => char.charCodeAt(0)); // NFC 에 정의되지 않은 문자는 포함하지 않음
+import "package:unorm_dart/unorm_dart.dart" as unorm;
+
+final List<int> jasoHangulNfd =
+    unorm.nfd('각힣').split('').map((char) => char.codeUnitAt(0)).toList(); // NFC 에 정의되지 않은 문자는 포함하지 않음
 
 final int completeHangulStartCharCode = '가'.codeUnitAt(0);
 final int completeHangulEndCharCode = '힣'.codeUnitAt(0);
