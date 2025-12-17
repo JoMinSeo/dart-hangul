@@ -1,5 +1,4 @@
-import '../_internal/constants.dart';
-import '../_internal/utils.dart';
+import 'package:dart_hangul/src/types/jongseong.dart';
 
 /// 인자로 받은 문자가 종성으로 위치할 수 있는 문자인지 검사합니다.
 ///
@@ -14,5 +13,5 @@ import '../_internal/utils.dart';
 /// canBeJongseong('ㅗㅏ'); // false
 /// ```
 bool canBeJongseong(String character) {
-  return hasValueInReadOnlyStringList(jongseongs, character);
+  return Jongseong.tryParse(character) != null;
 }

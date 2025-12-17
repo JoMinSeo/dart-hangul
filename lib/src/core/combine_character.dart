@@ -1,7 +1,7 @@
 import '../_internal/constants.dart';
-import 'can_be_choseong.dart';
-import 'can_be_jongseong.dart';
-import 'can_be_jungseong.dart';
+import '../types/choseong.dart';
+import '../types/jongseong.dart';
+import '../types/jungseong.dart';
 
 /// 인자로 초성, 중성, 종성을 받아 하나의 완성형 한글 문자를 반환합니다.
 ///
@@ -16,20 +16,20 @@ import 'can_be_jungseong.dart';
 ///
 /// 유효하지 않은 조합이면 [ArgumentError]를 던집니다.
 String combineCharacter(String choseong, String jungseong, [String jongseong = '']) {
-  if (!canBeChoseong(choseong) || !canBeJungseong(jungseong) || !canBeJongseong(jongseong)) {
+  final choseongObj = Choseong.tryParse(choseong);
+  final jungseongObj = Jungseong.tryParse(jungseong);
+  final jongseongObj = Jongseong.tryParse(jongseong);
+
+  if (choseongObj == null || jungseongObj == null || jongseongObj == null) {
     throw ArgumentError.value('$choseong, $jungseong, $jongseong', 'hangulCharacters', 'Invalid hangul characters');
   }
 
   final numOfJungseongs = jungseongs.length;
   final numOfJongseongs = jongseongs.length;
 
-  final choseongIndex = choseongs.indexOf(choseong);
-  final jungseongIndex = jungseongs.indexOf(jungseong);
-  final jongseongIndex = jongseongs.indexOf(jongseong);
-
-  if (choseongIndex < 0 || jungseongIndex < 0 || jongseongIndex < 0) {
-    throw ArgumentError.value('$choseong, $jungseong, $jongseong', 'hangulCharacters', 'Invalid hangul characters');
-  }
+  final choseongIndex = choseongObj.index;
+  final jungseongIndex = jungseongObj.index;
+  final jongseongIndex = jongseongObj.index;
 
   final choseongOfTargetConsonant = choseongIndex * numOfJungseongs * numOfJongseongs;
   final choseongOfTargetVowel = jungseongIndex * numOfJongseongs;

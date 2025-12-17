@@ -1,5 +1,4 @@
-import '../_internal/constants.dart';
-import '../_internal/utils.dart';
+import 'package:dart_hangul/src/types/jungseong.dart';
 
 /// 인자로 받은 문자가 중성으로 위치할 수 있는 문자인지 검사합니다.
 ///
@@ -15,15 +14,5 @@ import '../_internal/utils.dart';
 /// canBeJungseong('가'); // false
 /// ```
 bool canBeJungseong(String character) {
-  if (character.isEmpty) {
-    return false;
-  }
-
-  // 단일 이중모음 문자인 경우 (ㅘ, ㅝ 등)
-  if (disassembledVowelsByVowel.containsKey(character)) {
-    return true;
-  }
-
-  // 분해된 이중모음 문자인 경우 (ㅗㅏ, ㅜㅓ 등)
-  return hasValueInReadOnlyStringList(jungseongs, character);
+  return Jungseong.tryParse(character) != null;
 }
