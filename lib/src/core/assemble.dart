@@ -1,5 +1,4 @@
-import 'package:dart_hangul/src/_internal/hangul.dart';
-
+import '../_internal/hangul.dart';
 import '../core/disassemble.dart';
 
 /// 인자로 받은 배열에 담긴 한글 문장과 문자를 한글 규칙에 맞게 합성합니다.

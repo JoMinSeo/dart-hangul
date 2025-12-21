@@ -1,4 +1,4 @@
-import 'package:dart_hangul/src/types/jongseong.dart';
+import '../types/jongseong.dart';
 
 /// 인자로 받은 문자가 종성으로 위치할 수 있는 문자인지 검사합니다.
 ///

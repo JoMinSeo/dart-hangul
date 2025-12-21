@@ -1,4 +1,4 @@
-import 'package:dart_hangul/src/_internal/constants.dart' show jongseongs;
+import '../_internal/constants.dart' show jongseongs;
 
 extension type Jongseong(String value) {
   static Jongseong? tryParse(String input) {

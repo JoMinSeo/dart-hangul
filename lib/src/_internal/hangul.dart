@@ -1,14 +1,14 @@
 import 'dart:convert' show jsonEncode;
 
-import 'package:dart_hangul/src/_internal/utils.dart';
-import 'package:dart_hangul/src/core/can_be_choseong.dart';
-import 'package:dart_hangul/src/core/can_be_jongseong.dart';
-import 'package:dart_hangul/src/core/can_be_jungseong.dart';
-import 'package:dart_hangul/src/core/combine_character.dart';
-import 'package:dart_hangul/src/core/combine_vowels.dart';
-import 'package:dart_hangul/src/core/disassemble_to_groups.dart';
-import 'package:dart_hangul/src/core/has_batchim.dart';
-import 'package:dart_hangul/src/core/remove_last_character.dart';
+import '../core/can_be_choseong.dart';
+import '../core/can_be_jongseong.dart';
+import '../core/can_be_jungseong.dart';
+import '../core/combine_character.dart';
+import '../core/combine_vowels.dart';
+import '../core/disassemble_to_groups.dart';
+import '../core/has_batchim.dart';
+import '../core/remove_last_character.dart';
+import 'utils.dart';
 
 bool isHangulCharacter(String character) => RegExp(r'^[가-힣]$').hasMatch(character);
 

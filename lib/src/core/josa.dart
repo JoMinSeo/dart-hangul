@@ -1,6 +1,6 @@
-import 'package:dart_hangul/src/_internal/constants.dart' show alphabetToKorean;
-import 'package:dart_hangul/src/core/disassemble_complete_character.dart';
-import 'package:dart_hangul/src/core/has_batchim.dart';
+import '../_internal/constants.dart' show alphabetToKorean;
+import 'disassemble_complete_character.dart';
+import 'has_batchim.dart';
 
 enum JosaOption {
   /// 이/가

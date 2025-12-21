@@ -1,4 +1,4 @@
-import 'package:dart_hangul/src/types/jungseong.dart';
+import '../types/jungseong.dart';
 
 /// 인자로 받은 문자가 중성으로 위치할 수 있는 문자인지 검사합니다.
 ///

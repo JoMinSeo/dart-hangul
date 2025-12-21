@@ -1,4 +1,4 @@
-import 'package:dart_hangul/src/_internal/constants.dart' show choseongs;
+import '../_internal/constants.dart' show choseongs;
 
 extension type Choseong(String value) {
   static Choseong? tryParse(String input) {

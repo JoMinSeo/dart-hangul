@@ -1,4 +1,4 @@
-import 'package:dart_hangul/src/_internal/constants.dart' show disassembledVowelsByVowel, jungseongs;
+import '../_internal/constants.dart' show disassembledVowelsByVowel, jungseongs;
 
 extension type Jungseong(String value) {
   static Jungseong? tryParse(String input) {
