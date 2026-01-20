@@ -10,6 +10,7 @@ export 'src/core/combine_vowels.dart';
 export 'src/core/disassemble.dart';
 export 'src/core/disassemble_complete_character.dart';
 export 'src/core/disassemble_to_groups.dart';
+export 'src/core/get_choseong.dart';
 export 'src/core/has_batchim.dart';
 export 'src/core/josa.dart';
 export 'src/core/remove_last_character.dart';
