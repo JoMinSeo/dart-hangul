@@ -66,44 +66,43 @@ final Set<JosaOption> _roJosa = {
   JosaOption.eurobuteoRobuteo,
 };
 
+final _upperAlphabetOnly = RegExp(r'^[A-Z]+$');
+
 /// 인자로 받은 단어에 조사를 붙입니다.
 ///
 /// ```dart
 /// josa('사과', JosaOption.waGwa); // 사과와
 /// josa('집', JosaOption.waGwa); // 집과
+/// josa('URL', JosaOption.iGa); // URL이
 /// ```
 String josa(String word, JosaOption josaOption) {
   if (word.isEmpty) return word;
 
-  final isUpperAlphabetOnly = RegExp(r'^[A-Z]+$').hasMatch(word);
-
-  if (isUpperAlphabetOnly) {
+  // 대문자 영어 약어(URL, CSS)는 마지막 알파벳의 한글 발음으로 받침을 판정한다
+  if (_upperAlphabetOnly.hasMatch(word)) {
     final lastChar = word.substring(word.length - 1);
-    final koreanPronunciationOfLastChar = alphabetToKorean[lastChar] ?? lastChar;
-    return '$word${josaPick(koreanPronunciationOfLastChar, josaOption)}';
+    return '$word${josaPick(alphabetToKorean[lastChar] ?? lastChar, josaOption)}';
   }
 
   return '$word${josaPick(word, josaOption)}';
 }
 
 /// 조사를 선택만 해서 반환합니다.
+///
+/// ```dart
+/// josaPick('사과', JosaOption.eulReul); // 를
+/// josaPick('책', JosaOption.eulReul); // 을
+/// ```
 String josaPick(String word, JosaOption josaOption) {
   if (word.isEmpty) return josaOption.first;
 
   final hasBatchimValue = hasBatchim(word);
-  var index = hasBatchimValue ? 0 : 1;
+  // '으로/로' 계열은 종성이 ㄹ이면 받침이 있어도 '로' (지름길로)
+  final isJongseongRieul =
+      hasBatchimValue && disassembleCompleteCharacter(word.substring(word.length - 1))?.jongseong == 'ㄹ';
+  // 와/과는 다른 조사와 반대로 받침 없으면 앞 형태(와), 있으면 뒤 형태(과)
+  final flip = josaOption == JosaOption.waGwa || (isJongseongRieul && _roJosa.contains(josaOption));
+  final useFirst = flip ? !hasBatchimValue : hasBatchimValue;
 
-  final lastChar = word.substring(word.length - 1);
-
-  // 종성이 'ㄹ'인지 확인
-  final isJongseongRieul = hasBatchimValue && disassembleCompleteCharacter(lastChar)?.jongseong == 'ㄹ';
-
-  // '으로/로' 계열 + 종성 ㄹ 예외 처리
-  final isCaseOfRo = hasBatchimValue && isJongseongRieul && _roJosa.contains(josaOption);
-
-  if (josaOption == JosaOption.waGwa || isCaseOfRo) {
-    index = index == 0 ? 1 : 0;
-  }
-
-  return index == 0 ? josaOption.first : josaOption.second;
+  return useFirst ? josaOption.first : josaOption.second;
 }

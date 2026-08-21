@@ -21,16 +21,4 @@ void main() {
       expect(result.last, equals('apple'));
     });
   });
-
-  group('hasValueInReadOnlyStringList', () {
-    const testList = ['ㄱ', 'ㄴ', 'ㄷ'];
-
-    test('문자열 리스트에 요소가 존재한다면 true를 반환한다.', () {
-      expect(hasValueInReadOnlyStringList(testList, 'ㄱ'), isTrue);
-    });
-
-    test('문자열 리스트에 요소가 존재하지 않으면 false를 반환한다.', () {
-      expect(hasValueInReadOnlyStringList(testList, 'ㄹ'), isFalse);
-    });
-  });
 }

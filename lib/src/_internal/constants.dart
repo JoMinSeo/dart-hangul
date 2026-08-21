@@ -1,7 +1,6 @@
-import "package:unorm_dart/unorm_dart.dart" as unorm;
-
-final List<int> jasoHangulNfd =
-    unorm.nfd('각힣').split('').map((char) => char.codeUnitAt(0)).toList(); // NFC 에 정의되지 않은 문자는 포함하지 않음
+/// NFD 자모 경계 코드포인트: [초성 시작 ᄀ, 중성 시작 ᅡ, 종성 시작 ᆨ, 초성 끝 ᄒ, 중성 끝 ᅵ, 종성 끝 ᇂ]
+/// = '각힣' 의 NFD 분해 결과. 현대 자모 범위만 포함한다.
+const List<int> jasoHangulNfd = [0x1100, 0x1161, 0x11A8, 0x1112, 0x1175, 0x11C2];
 
 final int completeHangulStartCharCode = '가'.codeUnitAt(0);
 final int completeHangulEndCharCode = '힣'.codeUnitAt(0);
