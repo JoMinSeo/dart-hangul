@@ -1,5 +1,5 @@
 import 'package:dart_hangul/src/_internal/utils.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('excludeLastElement', () {

@@ -1,5 +1,5 @@
 import 'package:dart_hangul/src/core/combine_character.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 Matcher _throwsInvalidHangulCharacters(String value) {
   return throwsA(

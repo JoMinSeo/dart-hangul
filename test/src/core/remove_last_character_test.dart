@@ -1,5 +1,5 @@
 import 'package:dart_hangul/src/core/remove_last_character.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('removeLastCharacter', () {

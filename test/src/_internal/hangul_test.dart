@@ -1,5 +1,5 @@
 import 'package:dart_hangul/src/_internal/hangul.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 Matcher _throwsArgumentErrorMessage(String message) {
   return throwsA(predicate((e) => e is ArgumentError && e.message == message, 'ArgumentError(message: $message)'));
