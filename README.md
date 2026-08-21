@@ -16,7 +16,9 @@ Dart/Flutter용 한글 처리 유틸리티. [toss/es-hangul](https://github.com/
 ```yaml
 dependencies:
   dart_hangul:
-    git: https://github.com/JoMinSeo/dart-hangul.git
+    git:
+      url: https://github.com/JoMinSeo/dart-hangul.git
+      ref: v0.1.0
 ```
 
 ## 사용

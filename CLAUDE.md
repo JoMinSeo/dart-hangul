@@ -79,10 +79,9 @@ test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/...
 
 **merge ≠ release** — main 에 머지는 자유롭게 쌓고, 배포할 시점에만 릴리즈를 끊는다.
 
-### 첫 배포 전 (현재)
+### 첫 릴리즈 이전 (~v0.1.0)
 
-pub publish 전까지는 사용처가 없으므로 breaking 변경이 자유롭다 — `@Deprecated`·호환 typedef 를 두지 않고,
-버전 bump 없이 `0.0.1` 에 쌓은 뒤 첫 태그를 `v0.1.0` 으로 낸다. 아래 규칙은 첫 배포 이후부터 적용한다.
+v0.1.0 이전에는 사용처가 없어 bump·deprecation 없이 breaking 변경을 `0.0.1` 에 쌓았다. **v0.1.0 부터 아래 규칙을 적용한다.**
 
 ### 불변식
 
