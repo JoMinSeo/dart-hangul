@@ -19,9 +19,9 @@ String removeLastCharacter(String words) {
   final disassembleLastCharacter = disassembleToGroups(lastCharacter);
   final lastCharacterWithoutLastAlphabet = excludeLastElement(disassembleLastCharacter[0]).rest;
 
-  // 마지막 글자가 분해 불가능(예: 공백/기호)이라면 그냥 제거
+  // 마지막 글자가 분해 불가능(예: 공백/기호)이라면 그 글자만 제거
   if (lastCharacterWithoutLastAlphabet.isEmpty) {
-    return '';
+    return words.substring(0, words.length - 1);
   }
 
   // 패턴 매칭으로 케이스 분리
