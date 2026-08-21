@@ -31,6 +31,7 @@ lib/src/types/              # extension type Choseong/Jungseong/Jongseong (Strin
 lib/src/_internal/constants.dart  # 자모 테이블 (choseongs/jungseongs/jongseongs, 분해 맵, alphabetToKorean)
 lib/src/_internal/hangul.dart     # 조합 엔진: binaryAssemble*, linkHangulCharacters, isHangul*, curriedCombineCharacter
 lib/src/core/               # 공개 함수 1개 = 파일 1개
+lib/src/number/             # 숫자 → 한글 (numberToHangul, numberToHangulMixed, susa, seosusa, days), 함수별 상수는 파일 내 private
 test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/... 직접 import
 ```
 
