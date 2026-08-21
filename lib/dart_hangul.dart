@@ -16,5 +16,6 @@ export 'src/core/josa.dart';
 export 'src/core/remove_last_character.dart';
 export 'src/types/choseong.dart';
 export 'src/types/disassemble_complete_character.dart';
+export 'src/types/either.dart';
 export 'src/types/jongseong.dart';
 export 'src/types/jungseong.dart';
