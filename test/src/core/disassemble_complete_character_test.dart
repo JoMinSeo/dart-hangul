@@ -2,7 +2,7 @@ import 'package:dart_hangul/src/core/disassemble_complete_character.dart';
 import 'package:dart_hangul/src/types/choseong.dart';
 import 'package:dart_hangul/src/types/jongseong.dart';
 import 'package:dart_hangul/src/types/jungseong.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('disassembleCompleteCharacter', () {

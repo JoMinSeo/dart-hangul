@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+- 초기 개발 버전 (미배포). 첫 pub 배포 시 `0.1.0` 으로 항목을 정리한다.

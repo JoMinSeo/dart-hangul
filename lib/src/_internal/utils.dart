@@ -1,35 +1,7 @@
-bool hasValueInReadOnlyStringList<T extends String>(List<T> list, String value) {
-  return list.any((item) => item == value);
-}
-
 ({List<String> rest, String last}) excludeLastElement(List<String> array) {
   if (array.isEmpty) return (rest: const [], last: '');
 
   return (rest: array.sublist(0, array.length - 1), last: array.last);
-}
-
-extension IterableExtension<T> on Iterable<T> {
-  T? get firstOrNull {
-    var iterator = this.iterator;
-
-    if (iterator.moveNext()) return iterator.current;
-
-    return null;
-  }
-
-  T? get lastOrNull {
-    var iterator = this.iterator;
-
-    if (!iterator.moveNext()) return null;
-
-    T result;
-
-    do {
-      result = iterator.current;
-    } while (iterator.moveNext());
-
-    return result;
-  }
 }
 
 /// 숫자를 정수부/소수부 문자열로 나눈다. 소수부가 없으면 `decimal` 은 null.

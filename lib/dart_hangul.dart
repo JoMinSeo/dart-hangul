@@ -1,6 +1,4 @@
-export 'src/_internal/constants.dart';
-export 'src/_internal/hangul.dart';
-export 'src/_internal/utils.dart';
+export 'src/_internal/hangul.dart' show isHangul;
 export 'src/core/assemble.dart';
 export 'src/core/can_be_choseong.dart';
 export 'src/core/can_be_jongseong.dart';
@@ -23,6 +21,5 @@ export 'src/number/seosusa.dart';
 export 'src/number/susa.dart';
 export 'src/types/choseong.dart';
 export 'src/types/disassemble_complete_character.dart';
-export 'src/types/either.dart';
 export 'src/types/jongseong.dart';
 export 'src/types/jungseong.dart';

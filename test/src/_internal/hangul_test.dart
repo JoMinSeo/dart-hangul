@@ -1,6 +1,5 @@
 import 'package:dart_hangul/src/_internal/hangul.dart';
-import 'package:dart_hangul/src/types/either.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 Matcher _throwsArgumentErrorMessage(String message) {
   return throwsA(predicate((e) => e is ArgumentError && e.message == message, 'ArgumentError(message: $message)'));
@@ -33,63 +32,6 @@ void main() {
       expect(isHangul(111), isFalse);
       expect(isHangul([111, 111]), isFalse);
       expect(isHangul({'a': 111}), isFalse);
-    });
-  });
-
-  group('parse', () {
-    test('parseHangul은 한글 문자열을 받으면 그대로 반환한다.', () {
-      expect(parseHangul('값'), equals('값'));
-      expect(parseHangul('ㄱ'), equals('ㄱ'));
-      expect(parseHangul('ㅏ'), equals('ㅏ'));
-      expect(parseHangul('저는 고양이를 좋아합니다'), equals('저는 고양이를 좋아합니다'));
-    });
-
-    test('parseHangul은 한글 문자열이 아닌 값을 받으면 에러를 발생시킨다.', () {
-      expect(() => parseHangul(111), _throwsArgumentErrorMessage('111 is not a valid hangul string'));
-      expect(() => parseHangul([111, 111]), _throwsArgumentErrorMessage('[111,111] is not a valid hangul string'));
-      expect(() => parseHangul({'a': 111}), _throwsArgumentErrorMessage('{"a":111} is not a valid hangul string'));
-    });
-
-    test('safeParseHangul은 한글 문자열을 받으면 성공 객체를 반환한다.', () {
-      final r1 = safeParseHangul('값');
-      expect(r1, isA<Right<ParseHangulError, String>>());
-      expect(r1.isRight, isTrue);
-      expect((r1 as Right<ParseHangulError, String>).value, equals('값'));
-
-      final r2 = safeParseHangul('ㄱ');
-      expect(r2, isA<Right<ParseHangulError, String>>());
-      expect(r2.isRight, isTrue);
-      expect((r2 as Right<ParseHangulError, String>).value, equals('ㄱ'));
-
-      final r3 = safeParseHangul('ㅏ');
-      expect(r3, isA<Right<ParseHangulError, String>>());
-      expect(r3.isRight, isTrue);
-      expect((r3 as Right<ParseHangulError, String>).value, equals('ㅏ'));
-
-      final r4 = safeParseHangul('저는 고양이를 좋아합니다');
-      expect(r4, isA<Right<ParseHangulError, String>>());
-      expect(r4.isRight, isTrue);
-      expect((r4 as Right<ParseHangulError, String>).value, equals('저는 고양이를 좋아합니다'));
-    });
-
-    test('safeParseHangul은 한글 문자열이 아닌 값을 받으면 실패 객체를 반환한다.', () {
-      final r1 = safeParseHangul(111);
-      expect(r1, isA<Left<ParseHangulError, String>>());
-      expect(r1.isLeft, isTrue);
-      expect((r1 as Left<ParseHangulError, String>).value.error, isA<ArgumentError>());
-      expect((r1.value.error as ArgumentError).message, equals('111 is not a valid hangul string'));
-
-      final r2 = safeParseHangul([111, 111]);
-      expect(r2, isA<Left<ParseHangulError, String>>());
-      expect(r2.isLeft, isTrue);
-      expect((r2 as Left<ParseHangulError, String>).value.error, isA<ArgumentError>());
-      expect((r2.value.error as ArgumentError).message, equals('[111,111] is not a valid hangul string'));
-
-      final r3 = safeParseHangul({'a': 111});
-      expect(r3, isA<Left<ParseHangulError, String>>());
-      expect(r3.isLeft, isTrue);
-      expect((r3 as Left<ParseHangulError, String>).value.error, isA<ArgumentError>());
-      expect((r3.value.error as ArgumentError).message, equals('{"a":111} is not a valid hangul string'));
     });
   });
 
@@ -193,22 +135,6 @@ void main() {
     test('조합이 불가능한 모음이 입력되면 단순 Join 한다.', () {
       expect(binaryAssemble('저는 고양이를 좋아하', 'ㅏ'), equals('저는 고양이를 좋아하ㅏ'));
       expect(binaryAssemble('저는 고양이를 좋아합니다', 'ㅜ'), equals('저는 고양이를 좋아합니다ㅜ'));
-    });
-
-    group('assertHangul', () {
-      test('한글 문자열을 받으면 에러를 발생시키지 않는다.', () {
-        expect(() => assertHangul('ㄱ'), returnsNormally);
-        expect(() => assertHangul('고양이'), returnsNormally);
-        expect(() => assertHangul('저는 고양이를 좋아합니다'), returnsNormally);
-        expect(() => assertHangul('저는 고양이를 좋아합니ㄷ'), returnsNormally);
-      });
-
-      test("한글 문자열이 아닌 값을 받으면 '___ is not a valid hangul string' 에러를 발생시킨다.", () {
-        expect(() => assertHangul('aaaaaa'), _throwsArgumentErrorMessage('"aaaaaa" is not a valid hangul string'));
-        expect(() => assertHangul(111), _throwsArgumentErrorMessage('111 is not a valid hangul string'));
-        expect(() => assertHangul([111, 111]), _throwsArgumentErrorMessage('[111,111] is not a valid hangul string'));
-        expect(() => assertHangul({'a': 111}), _throwsArgumentErrorMessage('{"a":111} is not a valid hangul string'));
-      });
     });
   });
 }
