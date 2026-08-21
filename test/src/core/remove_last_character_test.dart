@@ -52,5 +52,12 @@ void main() {
     test('빈 문자열일 경우 빈 문자열을 반환한다.', () {
       expect(removeLastCharacter(''), equals(''));
     });
+
+    test('마지막 글자가 한글이 아니면(공백·기호·영문) 그 글자만 제거한다.', () {
+      expect(removeLastCharacter('안녕 '), equals('안녕'));
+      expect(removeLastCharacter('안녕!'), equals('안녕'));
+      expect(removeLastCharacter('안녕a'), equals('안녕'));
+      expect(removeLastCharacter('a'), equals(''));
+    });
   });
 }
