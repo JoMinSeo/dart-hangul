@@ -7,6 +7,7 @@ import '../types/jongseong.dart';
 /// ```dart
 /// canBeJongseong('ㄱ'); // true
 /// canBeJongseong('ㄱㅅ'); // true
+/// canBeJongseong('ㄳ'); // true (합성형도 분해형으로 정규화해 판정)
 /// canBeJongseong('ㅎㄹ'); // false
 /// canBeJongseong('가'); // false
 /// canBeJongseong('ㅏ'); // false

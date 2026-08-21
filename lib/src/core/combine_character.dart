@@ -7,10 +7,11 @@ import '../types/jungseong.dart';
 ///
 /// - [choseong] 초성 (예: `ㄱ`)
 /// - [jungseong] 중성(분해형) (예: `ㅏ`, `ㅗㅏ`)
-/// - [jongseong] 종성(분해형) (예: `''`, `ㄱ`, `ㄱㅅ`)
+/// - [jongseong] 종성(분해형) (예: `''`, `ㄱ`, `ㄱㅅ`). 합성형(`ㄳ`)도 분해형으로 정규화해 받는다
 ///
 /// ```dart
 /// combineCharacter('ㄱ', 'ㅏ', 'ㅂㅅ'); // '값'
+/// combineCharacter('ㄱ', 'ㅏ', 'ㅄ'); // '값'
 /// combineCharacter('ㅌ', 'ㅗ'); // '토'
 /// ```
 ///
