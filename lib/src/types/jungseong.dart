@@ -1,6 +1,7 @@
 import '../_internal/constants.dart' show disassembledVowelsByVowel, jungseongs;
 
-extension type Jungseong(String value) {
+/// String 자리에 그대로 사용할 수 있다 (`implements String`).
+extension type Jungseong(String value) implements String {
   static Jungseong? tryParse(String input) {
     if (input.isEmpty) return null;
 

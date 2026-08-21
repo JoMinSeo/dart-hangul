@@ -1,6 +1,4 @@
-export 'src/_internal/constants.dart';
-export 'src/_internal/hangul.dart';
-export 'src/_internal/utils.dart';
+export 'src/_internal/hangul.dart' show isHangul;
 export 'src/core/assemble.dart';
 export 'src/core/can_be_choseong.dart';
 export 'src/core/can_be_jongseong.dart';

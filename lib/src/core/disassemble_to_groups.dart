@@ -9,9 +9,9 @@ List<String> _disassembleLetter(String letter) {
   final disassembledComplete = disassembleCompleteCharacter(letter);
   if (disassembledComplete != null) {
     return [
-      ..._splitChars(disassembledComplete.choseong.value),
-      ..._splitChars(disassembledComplete.jungseong.value),
-      ..._splitChars(disassembledComplete.jongseong.value),
+      ..._splitChars(disassembledComplete.choseong),
+      ..._splitChars(disassembledComplete.jungseong),
+      ..._splitChars(disassembledComplete.jongseong),
     ];
   }
 
