@@ -11,25 +11,26 @@ Dart/Flutter용 한글 처리 유틸리티 패키지. [es-hangul](https://github
 ## 명령어
 
 ```bash
-flutter pub get
-flutter test                                   # 전체 테스트
-flutter test test/src/core/josa_test.dart      # 파일 단위
-flutter test test/src/core/josa_test.dart --plain-name '주격조사'   # 단일 테스트
-flutter analyze
+dart pub get
+dart test                                      # 전체 테스트
+dart test test/src/core/josa_test.dart         # 파일 단위
+dart test test/src/core/josa_test.dart --plain-name '주격조사'   # 단일 테스트
+dart analyze
 dart format --line-length 120 .                # 포맷
 ```
 
-- `flutter_test` 의존이므로 `dart test`가 아니라 `flutter test`를 쓴다.
+- 순수 Dart 패키지다 (`flutter` 의존 없음, dev 의존은 `test`/`lints`). `flutter test`가 아니라 `dart test`.
 - **포맷 line length는 120**이다. 기본값(80)으로 `dart format`을 돌리면 15개 파일이 바뀌니 반드시 `--line-length 120`.
-- `flutter analyze`는 현재 `example/main.dart`의 `avoid_print` info 1건만 남아 있다(플레이스홀더).
+- `dart analyze`는 0 issues 가 기준이다.
 
 ## 구조
 
 ```
-lib/dart_hangul.dart        # 배럴 — _internal/ 포함 전부 export (내부 헬퍼도 사실상 공개 API)
-lib/src/types/              # extension type Choseong/Jungseong/Jongseong (String 래핑, tryParse/index)
-lib/src/_internal/constants.dart  # 자모 테이블 (choseongs/jungseongs/jongseongs, 분해 맵, alphabetToKorean)
-lib/src/_internal/hangul.dart     # 조합 엔진: binaryAssemble*, linkHangulCharacters, isHangul*, curriedCombineCharacter
+lib/dart_hangul.dart        # 배럴 — core/number/types + isHangul 만 export. _internal/ 은 비공개 (hangul.dart 는 `show isHangul`)
+lib/src/types/              # extension type Choseong/Jungseong/Jongseong (String 래핑, implements String, tryParse/index)
+lib/src/_internal/constants.dart  # 자모 테이블 (choseongs/jungseongs/jongseongs, 분해 맵, alphabetToKorean), 숫자 상수, NFD 경계
+lib/src/_internal/hangul.dart     # 조합 엔진: binaryAssemble*, linkHangulCharacters, isHangul*
+lib/src/_internal/utils.dart      # excludeLastElement, splitNumberString
 lib/src/core/               # 공개 함수 1개 = 파일 1개
 lib/src/number/             # 숫자 → 한글 (numberToHangul, numberToHangulMixed, susa, seosusa, days), 함수별 상수는 파일 내 private
 test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/... 직접 import
@@ -48,7 +49,8 @@ test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/...
 ### 기타
 
 - `josa`: `hasBatchim`으로 이/가 계열 선택 + `으로/로` 계열은 ㄹ받침 예외 + 대문자 영어 약어는 `alphabetToKorean`으로 마지막 글자 발음을 치환해 판정.
-- `getChoseong`은 `unorm_dart` NFD 분해를 써서 초성을 뽑는다 (유일한 외부 의존).
+- `getChoseong`/`getJungseong`/`getJongseong`은 `unorm_dart` NFD 분해를 쓴다 (유일한 외부 의존).
+- `JosaOption` 이름 규칙: 앞 형태 로마자 + 뒤 형태 로마자(첫 글자 대문자) — `eulReul`=을/를, `euroRo`=으로/로. `toString()`은 `'을/를'`.
 
 ## Git Workflow (GitHub Flow)
 
@@ -71,11 +73,16 @@ test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/...
 - 이미 main 에 커밋해 버렸다면 push 하지 말고 커밋을 브랜치로 옮긴다:
   `git switch -c <브랜치명>` (커밋이 새 브랜치로 따라옴) →
   `git branch -f main origin/main` (로컬 main 원복) → 새 브랜치에서 push + PR.
-- PR 전에 `flutter test` / `flutter analyze` / `dart format --line-length 120 --set-exit-if-changed .` 가 통과해야 한다.
+- PR 전에 `dart test` / `dart analyze` / `dart format --line-length 120 --set-exit-if-changed .` 가 통과해야 한다.
 
 ## Release & Versioning (태그 관리)
 
 **merge ≠ release** — main 에 머지는 자유롭게 쌓고, 배포할 시점에만 릴리즈를 끊는다.
+
+### 첫 배포 전 (현재)
+
+pub publish 전까지는 사용처가 없으므로 breaking 변경이 자유롭다 — `@Deprecated`·호환 typedef 를 두지 않고,
+버전 bump 없이 `0.0.1` 에 쌓은 뒤 첫 태그를 `v0.1.0` 으로 낸다. 아래 규칙은 첫 배포 이후부터 적용한다.
 
 ### 불변식
 
