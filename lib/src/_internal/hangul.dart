@@ -195,7 +195,12 @@ String binaryAssemble(String source, String nextCharacter) {
   final rest = excluded.rest;
   final lastCharacter = excluded.last;
 
-  final needJoinString = isBlank(lastCharacter) || isBlank(nextCharacter);
+  // 공백이거나 한글 자모로 조합할 수 없는 문자(숫자, 기호 등)는 조합하지 않고 그대로 이어 붙인다.
+  final needJoinString =
+      isBlank(lastCharacter) ||
+      isBlank(nextCharacter) ||
+      !(isHangulCharacter(lastCharacter) || isHangulAlphabet(lastCharacter)) ||
+      !isHangulAlphabet(nextCharacter);
 
   return '${rest.join()}${needJoinString ? '$lastCharacter$nextCharacter' : binaryAssembleCharacters(lastCharacter, nextCharacter)}';
 }
