@@ -15,6 +15,12 @@ void main() {
       test('ㅂㅅ', () {
         expect(canBeJongseong('ㅂㅅ'), isTrue);
       });
+
+      test('합성형 겹받침(ㄳ, ㅄ, ㅀ)도 분해형으로 정규화해 허용한다.', () {
+        expect(canBeJongseong('ㄳ'), isTrue);
+        expect(canBeJongseong('ㅄ'), isTrue);
+        expect(canBeJongseong('ㅀ'), isTrue);
+      });
     });
 
     group('종성이 될 수 없다고 판단되는 경우', () {

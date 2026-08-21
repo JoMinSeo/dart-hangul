@@ -42,7 +42,7 @@ test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/...
 
 - 중성/종성의 정규 표현은 **분해된 다중 문자**다: `ㅘ`→`'ㅗㅏ'`, `ㄳ`→`'ㄱㅅ'`, 종성 없음→`''`.
 - `jungseongs`(21)/`jongseongs`(28) 리스트가 이 분해형으로 정의되어 있고, 리스트 **인덱스가 곧 유니코드 오프셋**이다: `0xAC00 + 초성idx×21×28 + 중성idx×28 + 종성idx`. 리스트 순서를 바꾸면 조합/분해가 전부 깨진다.
-- `Jungseong.tryParse`는 조합형(`ㅘ`)을 분해형으로 정규화하지만, **`Jongseong.tryParse`는 정규화하지 않는다** — 종성은 반드시 `'ㄱㅅ'` 형태로 넘겨야 한다(`'ㄳ'`는 null).
+- `Jungseong.tryParse`/`Jongseong.tryParse` 모두 합성형(`ㅘ`, `ㄳ`)을 분해형(`'ㅗㅏ'`, `'ㄱㅅ'`)으로 정규화한다. 저장값은 항상 분해형이다. (es-hangul은 종성을 정규화하지 않아 `canBeJongseong('ㄳ')`가 false — 의도적 차이)
 - `disassembleToGroups`가 분해의 원시 함수. `disassemble`은 그걸 flat join, `assemble`은 입력을 전부 분해한 뒤 `binaryAssemble`로 left-fold.
 - `canBeJungseong('ㅗㅏ')`, `canBeJongseong('ㄱㅅ')`처럼 2글자 문자열을 받는 게 정상이다.
 

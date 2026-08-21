@@ -20,6 +20,11 @@ void main() {
       expect(combineCharacter('ㄱ', 'ㅏ', 'ㅂㅅ'), equals('값'));
     });
 
+    test('종성으로 합성형 겹받침을 받으면 분해형으로 정규화해 합성한다. (ㄱ, ㅏ, ㅄ)', () {
+      expect(combineCharacter('ㄱ', 'ㅏ', 'ㅄ'), equals('값'));
+      expect(combineCharacter('ㅅ', 'ㅏ', 'ㄳ'), equals('삯'));
+    });
+
     test('종성이 입력되지 않았다면 받침이 없는 문자로 합성한다. (ㅌ, ㅗ)', () {
       expect(combineCharacter('ㅌ', 'ㅗ'), equals('토'));
     });
