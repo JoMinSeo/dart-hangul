@@ -23,6 +23,5 @@ export 'src/number/seosusa.dart';
 export 'src/number/susa.dart';
 export 'src/types/choseong.dart';
 export 'src/types/disassemble_complete_character.dart';
-export 'src/types/either.dart';
 export 'src/types/jongseong.dart';
 export 'src/types/jungseong.dart';

@@ -1,5 +1,3 @@
-import 'dart:convert' show jsonEncode;
-
 import '../core/can_be_choseong.dart';
 import '../core/can_be_jongseong.dart';
 import '../core/can_be_jungseong.dart';
@@ -8,7 +6,6 @@ import '../core/combine_vowels.dart';
 import '../core/disassemble_to_groups.dart';
 import '../core/has_batchim.dart';
 import '../core/remove_last_character.dart';
-import '../types/either.dart';
 import 'utils.dart';
 
 bool isHangulCharacter(String character) => RegExp(r'^[가-힣]$').hasMatch(character);
@@ -20,74 +17,6 @@ bool isBlank(String character) => RegExp(r'^\s$').hasMatch(character);
 bool isHangul(Object? actual) {
   return actual is String && RegExp(r'^[가-힣ㄱ-ㅣ\s]+$').hasMatch(actual);
 }
-
-String _jsonStringify(Object? value) {
-  try {
-    return jsonEncode(value);
-  } catch (_) {
-    return '$value';
-  }
-}
-
-void assertHangul(Object? actual, {String? message}) {
-  if (!isHangul(actual)) {
-    throw ArgumentError.value(actual, 'actual', message ?? '${_jsonStringify(actual)} is not a valid hangul string');
-  }
-}
-
-String parseHangul(Object? actual, {String? message}) {
-  assertHangul(actual, message: message);
-  return actual as String;
-}
-
-/// 한글 파싱 에러 정보
-class ParseHangulError {
-  final Object error;
-  final StackTrace stackTrace;
-
-  const ParseHangulError(this.error, this.stackTrace);
-
-  @override
-  String toString() => 'ParseHangulError: $error';
-
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ParseHangulError && error == other.error;
-
-  @override
-  int get hashCode => error.hashCode;
-}
-
-/// 한글 파싱 결과 타입 (Either 기반)
-typedef ParseHangulResult = Either<ParseHangulError, String>;
-
-/// 안전한 한글 파싱 (Either 반환)
-///
-/// ```dart
-/// safeParseHangul('안녕')
-///   .map((s) => disassemble(s))
-///   .fold(
-///     (error) => 'Error: $error',
-///     (result) => result,
-///   );
-/// ```
-ParseHangulResult safeParseHangul(Object? actual, {String? message}) {
-  try {
-    final parsedHangul = parseHangul(actual, message: message);
-    return Right(parsedHangul);
-  } catch (e, st) {
-    return Left(ParseHangulError(e, st));
-  }
-}
-
-// 하위 호환성을 위한 레거시 타입 (deprecated)
-@Deprecated('Use ParseHangulResult (Either<ParseHangulError, String>) instead')
-typedef SafeParseHangulResult = ParseHangulResult;
-
-@Deprecated('Use Right(data) instead')
-typedef SafeParseHangulSuccess = Right<ParseHangulError, String>;
-
-@Deprecated('Use Left(ParseHangulError(error, stackTrace)) instead')
-typedef SafeParseHangulError = Left<ParseHangulError, String>;
 
 /// 두 개의 한글 자모를 합칩니다. 완성된 한글 문자는 취급하지 않습니다.
 ///
