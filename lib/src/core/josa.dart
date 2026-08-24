@@ -54,6 +54,23 @@ enum JosaOption {
 
   const JosaOption(this.first, this.second);
 
+  static final Map<String, JosaOption> _byLabel = {for (final option in values) option.toString(): option};
+
+  /// `'을/를'` 형식의 문자열을 [JosaOption]으로 변환합니다. 유효한 조사 쌍이 아니면 `null`을 반환합니다.
+  ///
+  /// 사용자 입력·설정값처럼 런타임에 문자열로 들어오는 조사 쌍을 검증하는 진입점입니다.
+  /// (es-hangul 은 런타임 검증 없이 잘못된 쌍도 그대로 사용한다 — 의도적 차이)
+  ///
+  /// ```dart
+  /// JosaOption.tryParse('을/를'); // JosaOption.eulReul
+  /// JosaOption.tryParse('이/을'); // null
+  /// ```
+  static JosaOption? tryParse(String input) => _byLabel[input];
+
+  /// `'을/를'` 형식의 문자열을 [JosaOption]으로 변환합니다. 유효한 조사 쌍이 아니면 [ArgumentError]를 던집니다.
+  static JosaOption parse(String input) =>
+      tryParse(input) ?? (throw ArgumentError.value(input, 'input', '유효한 조사 쌍이 아닙니다. 유효한 값: ${values.join(', ')}'));
+
   @override
   String toString() => '$first/$second';
 }

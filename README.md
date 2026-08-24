@@ -37,6 +37,8 @@ josa('책', JosaOption.eulReul);                  // '책을'
 josa('지름길', JosaOption.euroRo);               // '지름길로'  (ㄹ 받침 예외)
 josa('URL', JosaOption.iGa);                     // 'URL이'    (영어 약어)
 josaPick('사과', JosaOption.eulReul);            // '를'
+JosaOption.tryParse('을/를');                    // JosaOption.eulReul (런타임 문자열 검증)
+JosaOption.tryParse('이/을');                    // null (유효하지 않은 쌍)
 
 hasBatchim('값');                                // true
 hasBatchim('값', only: BatchimType.single);      // false (겹받침)
@@ -69,7 +71,7 @@ days(11);                                        // '열하루'
 ### es-hangul 과 다른 점
 
 - 옵션은 JS 객체 대신 named parameter — `hasBatchim(s, only: BatchimType.single)`, `getChoseong(s, keepNonHangul: true)`, `susa(n, classifier: true)`, `numberToHangul(n, spacing: true)`
-- 조사는 문자열 `'을/를'` 대신 enum `JosaOption.eulReul` — 이름 규칙: 앞 형태 로마자 + 뒤 형태 로마자(첫 글자 대문자). `iGa` 이/가, `eulReul` 을/를, `eunNeun` 은/는, `euroRo` 으로/로, `waGwa` 와/과, `inaNa` 이나/나, `iranRan` 이란/란, `aYa` 아/야, `irangRang` 이랑/랑, `ieyoYeyo` 이에요/예요, `euroseoRoseo` 으로서/로서, `eurosseoRosseo` 으로써/로써, `eurobuteoRobuteo` 으로부터/로부터, `iraRa` 이라/라
+- 조사는 문자열 `'을/를'` 대신 enum `JosaOption.eulReul` — 잘못된 쌍(`'이/을'`)이 컴파일 타임에 차단된다. 런타임 문자열(사용자 입력 등)은 `JosaOption.tryParse`/`parse` 로 검증한다 (es-hangul 은 런타임 검증 없이 잘못된 쌍도 그대로 사용해 `'사과을'` 같은 결과가 나온다). 이름 규칙: 앞 형태 로마자 + 뒤 형태 로마자(첫 글자 대문자). `iGa` 이/가, `eulReul` 을/를, `eunNeun` 은/는, `euroRo` 으로/로, `waGwa` 와/과, `inaNa` 이나/나, `iranRan` 이란/란, `aYa` 아/야, `irangRang` 이랑/랑, `ieyoYeyo` 이에요/예요, `euroseoRoseo` 으로서/로서, `eurosseoRosseo` 으로써/로써, `eurobuteoRobuteo` 으로부터/로부터, `iraRa` 이라/라
 - `canBeJongseong`/`combineCharacter`는 합성형 겹받침(`'ㄳ'`, `'ㅄ'`)도 받아 분해형으로 정규화한다 (es-hangul 은 분해형 `'ㄱㅅ'`만 허용)
 - 잘못된 입력은 `ArgumentError`
 - `keyboard`(QWERTY 변환), `pronunciation`(표준 발음·로마자) 모듈은 미포팅
