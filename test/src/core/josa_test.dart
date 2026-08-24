@@ -219,4 +219,38 @@ void main() {
       expect(josa('CSS', JosaOption.ieyoYeyo), equals('CSS예요'));
     });
   });
+
+  group('JosaOption.tryParse', () {
+    test('유효한 조사 쌍 문자열을 JosaOption 으로 변환한다.', () {
+      expect(JosaOption.tryParse('이/가'), equals(JosaOption.iGa));
+      expect(JosaOption.tryParse('을/를'), equals(JosaOption.eulReul));
+      expect(JosaOption.tryParse('으로부터/로부터'), equals(JosaOption.eurobuteoRobuteo));
+    });
+
+    test('모든 JosaOption 은 toString 결과로 다시 파싱된다.', () {
+      for (final option in JosaOption.values) {
+        expect(JosaOption.tryParse(option.toString()), equals(option));
+      }
+    });
+
+    test('유효하지 않은 조사 쌍이면 null 을 반환한다.', () {
+      expect(JosaOption.tryParse('이/을'), isNull); // 앞뒤가 다른 쌍의 조합
+      expect(JosaOption.tryParse('을/가'), isNull);
+      expect(JosaOption.tryParse('가/이'), isNull); // 순서 뒤집힘
+      expect(JosaOption.tryParse('을를'), isNull); // 구분자 없음
+      expect(JosaOption.tryParse('을'), isNull); // 한쪽만
+      expect(JosaOption.tryParse(''), isNull);
+    });
+  });
+
+  group('JosaOption.parse', () {
+    test('유효한 조사 쌍 문자열을 JosaOption 으로 변환한다.', () {
+      expect(JosaOption.parse('을/를'), equals(JosaOption.eulReul));
+    });
+
+    test('유효하지 않은 조사 쌍이면 ArgumentError 를 던진다.', () {
+      expect(() => JosaOption.parse('이/을'), throwsArgumentError);
+      expect(() => JosaOption.parse('을를'), throwsArgumentError);
+    });
+  });
 }
