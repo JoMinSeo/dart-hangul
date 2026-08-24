@@ -29,6 +29,16 @@ List<String> _disassembleLetter(String letter) {
   return [letter];
 }
 
+/// 한글 문자열을 글자 단위로 나눈 뒤, 각 글자를 자모 배열로 분해하여 반환합니다.
+///
+/// 이중모음·겹받침은 낱자로 분해되며(`ㅘ` → `ㅗ`, `ㅏ`), 한글이 아닌 문자는
+/// 한 글자짜리 그룹으로 그대로 유지됩니다.
+///
+/// ```dart
+/// disassembleToGroups('사과'); // [['ㅅ', 'ㅏ'], ['ㄱ', 'ㅗ', 'ㅏ']]
+/// disassembleToGroups('값'); // [['ㄱ', 'ㅏ', 'ㅂ', 'ㅅ']]
+/// disassembleToGroups('ㅘ'); // [['ㅗ', 'ㅏ']]
+/// ```
 List<List<String>> disassembleToGroups(String str) {
   return str.runes.map(String.fromCharCode).map(_disassembleLetter).toList();
 }

@@ -1,3 +1,9 @@
+/// 한글 자모 분해·조합, 조사 처리, 받침·초성 추출, 숫자 한글 변환 유틸리티.
+///
+/// [toss/es-hangul](https://github.com/toss/es-hangul)에서 영감을 받아
+/// Dart 언어에 맞게 재설계했습니다.
+library;
+
 export 'src/_internal/hangul.dart' show isHangul;
 export 'src/core/assemble.dart';
 export 'src/core/can_be_choseong.dart';
