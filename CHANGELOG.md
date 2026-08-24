@@ -1,3 +1,12 @@
+## 0.1.1
+
+### 추가
+- `JosaOption.tryParse` / `JosaOption.parse` — `'을/를'` 형식의 런타임 문자열(사용자 입력, 설정값 등)을 검증해 `JosaOption` 으로 변환. 유효하지 않은 쌍(`'이/을'`)은 `null` / `ArgumentError`. es-hangul 은 런타임 검증 없이 잘못된 쌍도 그대로 사용한다 — 의도적 차이.
+
+### 문서
+- 공개 API dartdoc 주석 보강 (`disassemble`, `disassembleToGroups`, `Choseong`/`Jungseong`/`Jongseong`, 라이브러리 doc)
+- LICENSE 에 es-hangul (MIT, Viva Republica, Inc) 저작권 고지 추가
+
 ## 0.1.0
 
 첫 릴리즈. [toss/es-hangul](https://github.com/toss/es-hangul) v2.4.0 의 `core`·`number` 모듈을 Dart 로 포팅했다. 순수 Dart 패키지 (Flutter 의존 없음).

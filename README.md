@@ -18,7 +18,7 @@ dependencies:
   dart_hangul:
     git:
       url: https://github.com/JoMinSeo/dart-hangul.git
-      ref: v0.1.0
+      ref: v0.1.1
 ```
 
 ## 사용
