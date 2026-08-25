@@ -33,5 +33,6 @@ build/
 
 ## LLM
 Agents.md
+.agents/
 .gstack/
 .agent/
