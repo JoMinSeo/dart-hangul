@@ -33,4 +33,6 @@ build/
 
 ## LLM
 Agents.md
+.agents/
+skills-lock.json
 .gstack/

@@ -22,6 +22,6 @@ SOFTWARE.
 
 ---
 
-This package is a Dart port of es-hangul (https://github.com/toss/es-hangul).
+This package is inspired by es-hangul (https://github.com/toss/es-hangul).
 Portions (function behavior and test cases) are derived from es-hangul,
 Copyright (c) 2024 Viva Republica, Inc, licensed under the MIT License.
