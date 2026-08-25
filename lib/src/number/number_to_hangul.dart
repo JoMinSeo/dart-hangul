@@ -15,7 +15,7 @@ import '../_internal/utils.dart';
 ///
 /// NaN 이면 [ArgumentError] 를 던집니다.
 String numberToHangul(num input, {bool spacing = false}) {
-  if (input.isNaN) throw ArgumentError('유효한 숫자를 입력해주세요.');
+  if (input.isNaN) throw ArgumentError.value(input, 'input', '유효한 숫자를 입력해주세요.');
   if (input == double.infinity) return '무한대';
   if (input == double.negativeInfinity) return spacing ? '마이너스 무한대' : '마이너스무한대';
   if (input == 0) return '영';

@@ -8,7 +8,7 @@ import '../core/disassemble.dart';
 /// assemble(['아버지가', ' ', '방에 ', '들어갑니다']); // 아버지가 방에 들어갑니다
 /// assemble(['ㅇ', 'ㅏ', 'ㅂ', 'ㅓ', 'ㅈ', 'ㅣ']); // 아버지
 /// ```
-String assemble(List<String> fragments) {
+String assemble(Iterable<String> fragments) {
   final disassembled = disassemble(fragments.join('')).runes.map(String.fromCharCode).toList();
 
   if (disassembled.isEmpty) return '';
