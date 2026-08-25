@@ -27,8 +27,7 @@ bool hasBatchim(String str, {BatchimType? only}) {
     return false;
   }
 
-  final lastChar = str[str.length - 1];
-  final charCode = lastChar.codeUnitAt(0);
+  final charCode = str.runes.last; // 코드포인트 단위 — 서로게이트 쌍은 한글 범위 밖이라 false
 
   final isNotCompleteHangul = charCode < completeHangulStartCharCode || charCode > completeHangulEndCharCode;
 

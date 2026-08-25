@@ -59,5 +59,11 @@ void main() {
       expect(removeLastCharacter('안녕a'), equals('안녕'));
       expect(removeLastCharacter('a'), equals(''));
     });
+
+    test('마지막 글자가 서로게이트 쌍(이모지)이면 반쪽이 아니라 통째로 제거한다.', () {
+      expect(removeLastCharacter('가😀'), equals('가'));
+      expect(removeLastCharacter('😀'), equals(''));
+      expect(removeLastCharacter('😀가'), equals('😀ㄱ'));
+    });
   });
 }
