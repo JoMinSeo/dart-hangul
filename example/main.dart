@@ -4,8 +4,8 @@ import 'package:dart_hangul/dart_hangul.dart';
 void main() {
   print(disassemble('값')); // ㄱㅏㅂㅅ
   print(assemble(['ㅇ', 'ㅏ', 'ㅂ', 'ㅓ', 'ㅈ', 'ㅣ'])); // 아버지
-  print(josa('사과', JosaOption.eulReul)); // 사과를
-  print(josa('책', JosaOption.eulReul)); // 책을
+  print(josa('사과', Josa.eulReul)); // 사과를
+  print(josa('책', Josa.eulReul)); // 책을
   print(hasBatchim('값')); // true
   print(getChoseong('프론트엔드')); // ㅍㄹㅌㅇㄷ
   print(removeLastCharacter('프론트엔드')); // 프론트엔ㄷ
