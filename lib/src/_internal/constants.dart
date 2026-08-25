@@ -157,12 +157,3 @@ const List<String> hangulDigits = [
   '겁',
   '업',
 ];
-
-/// 한자어 숫자 (0은 빈 문자열 — 정수부에서 0은 읽지 않음)
-const List<String> hangulNumbers = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
-
-/// 소수부용 한자어 숫자 (0을 '영'으로 읽음)
-const List<String> hangulNumbersForDecimal = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
-
-/// 천 이하 자릿수 이름 — 인덱스 = 10의 거듭제곱
-const List<String> hangulCardinal = ['', '십', '백', '천'];

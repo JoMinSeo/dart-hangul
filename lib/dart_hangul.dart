@@ -4,7 +4,6 @@
 /// Dart 언어에 맞게 재설계했습니다.
 library;
 
-export 'src/_internal/hangul.dart' show isHangul;
 export 'src/core/assemble.dart';
 export 'src/core/can_be_choseong.dart';
 export 'src/core/can_be_jongseong.dart';
@@ -18,6 +17,7 @@ export 'src/core/get_choseong.dart';
 export 'src/core/get_jongseong.dart';
 export 'src/core/get_jungseong.dart';
 export 'src/core/has_batchim.dart';
+export 'src/core/is_hangul.dart';
 export 'src/core/josa.dart';
 export 'src/core/remove_last_character.dart';
 export 'src/number/days.dart';

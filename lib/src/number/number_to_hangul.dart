@@ -39,7 +39,7 @@ String numberToHangul(num input, {bool spacing = false}) {
   var result = integer == '0' ? '영' : koreanParts.join(spacing ? ' ' : '');
 
   if (decimal != null) {
-    final decimalKorean = decimal.split('').map((d) => hangulNumbersForDecimal[int.parse(d)]).join();
+    final decimalKorean = decimal.split('').map((d) => _hangulNumbersForDecimal[int.parse(d)]).join();
     result += spacing ? '점 $decimalKorean' : '점$decimalKorean';
   }
 
@@ -54,8 +54,17 @@ String _numberToKoreanUpToThousand(int number) {
   final korean =
       [
         for (var i = digits.length - 1; i >= 0; i--)
-          if (digits[i] != '0') '${hangulNumbers[int.parse(digits[i])]}${hangulCardinal[i]}',
+          if (digits[i] != '0') '${_hangulNumbers[int.parse(digits[i])]}${_hangulCardinal[i]}',
       ].join();
 
   return korean.replaceFirst('일천', '천').replaceFirst('일백', '백').replaceFirst('일십', '십');
 }
+
+/// 한자어 숫자 (0은 빈 문자열 — 정수부에서 0은 읽지 않음)
+const List<String> _hangulNumbers = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+
+/// 소수부용 한자어 숫자 (0을 '영'으로 읽음)
+const List<String> _hangulNumbersForDecimal = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+
+/// 천 이하 자릿수 이름 — 인덱스 = 10의 거듭제곱
+const List<String> _hangulCardinal = ['', '십', '백', '천'];
