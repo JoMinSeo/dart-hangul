@@ -47,9 +47,9 @@ test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/...
 
 ### 기타
 
-- `josa`: 선택 규칙은 `JosaOption.pick` 에 있다 — `afterBatchim`/`afterVowel` 필드 + ㄹ 받침 예외는 `afterRieul`(으로/로 계열). 와/과는 표기만 `label` 로 뒤집는다. 대문자 영어 약어는 `alphabetToKorean`으로 마지막 글자 발음을 치환해 판정.
+- `josa`: 선택 규칙은 `Josa.pick` 에 있다 — `afterBatchim`/`afterVowel` 필드 + ㄹ 받침 예외는 `afterRieul`(으로/로 계열). 와/과는 표기만 `label` 로 뒤집는다. 대문자 영어 약어는 `alphabetToKorean`으로 마지막 글자 발음을 치환해 판정.
 - `getChoseong`/`getJungseong`/`getJongseong`은 `unorm_dart` NFD 분해를 쓴다 (유일한 외부 의존).
-- `JosaOption` 이름 규칙: 앞 형태 로마자 + 뒤 형태 로마자(첫 글자 대문자) — `eulReul`=을/를, `euroRo`=으로/로. `toString()`은 `'을/를'`.
+- `Josa` 이름 규칙: 앞 형태 로마자 + 뒤 형태 로마자(첫 글자 대문자) — `eulReul`=을/를, `euroRo`=으로/로. `toString()`은 `'을/를'`.
 
 ## Git Workflow (GitHub Flow)
 
