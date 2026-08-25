@@ -1,6 +1,6 @@
 name: dart_hangul
-description: 한글 자모 분해·조합, 조사 처리, 받침·초성 추출, 숫자 한글 변환 유틸리티. toss/es-hangul 의 Dart 포팅.
-version: 0.1.1
+description: 한글 자모 분해·조합, 조사 자동 선택, 받침·초성 추출, 숫자 한글 변환을 제공하는 순수 Dart 한글 처리 라이브러리.
+version: 0.2.0
 repository: https://github.com/JoMinSeo/dart-hangul
 
 environment:
