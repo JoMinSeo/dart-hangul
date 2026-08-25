@@ -28,8 +28,8 @@ DisassembleCompleteCharacterResult? disassembleCompleteCharacter(String letter) 
   final choseongIndex = ((hangulCode - jongseongIndex) ~/ (numberOfJongseong * numberOfJungseong));
 
   return (
-    choseong: Choseong(choseongs[choseongIndex]),
-    jungseong: Jungseong(jungseongs[jungseongIndex]),
-    jongseong: Jongseong(jongseongs[jongseongIndex]),
+    choseong: Choseong.fromIndex(choseongIndex),
+    jungseong: Jungseong.fromIndex(jungseongIndex),
+    jongseong: Jongseong.fromIndex(jongseongIndex),
   );
 }

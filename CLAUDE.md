@@ -26,29 +26,28 @@ dart format --line-length 120 .                # 포맷
 ## 구조
 
 ```
-lib/dart_hangul.dart        # 배럴 — core/number/types + isHangul 만 export. _internal/ 은 비공개 (hangul.dart 는 `show isHangul`)
-lib/src/types/              # extension type Choseong/Jungseong/Jongseong (String 래핑, implements String, tryParse/index)
-lib/src/_internal/constants.dart  # 자모 테이블 (choseongs/jungseongs/jongseongs, 분해 맵, alphabetToKorean), 숫자 상수, NFD 경계
-lib/src/_internal/hangul.dart     # 조합 엔진: binaryAssemble*, linkHangulCharacters, isHangul*
+lib/dart_hangul.dart        # 배럴 — core/number/types 를 export. _internal/ 은 비공개
+lib/src/types/              # extension type Choseong/Jungseong/Jongseong (String 래핑, implements String. 생성자는 private — tryParse/fromIndex 로만 생성, index 가 fromIndex 의 역연산)
+lib/src/_internal/constants.dart  # 자모 테이블 (choseongs/jungseongs/jongseongs, 분해 맵, alphabetToKorean), 만 단위 자릿수(hangulDigits), NFD 경계
 lib/src/_internal/utils.dart      # excludeLastElement, splitNumberString
-lib/src/core/               # 공개 함수 1개 = 파일 1개
+lib/src/core/               # 공개 함수 1개 = 파일 1개. assemble.dart 는 조합 엔진(_binaryAssemble*)을 private 으로 품는다
 lib/src/number/             # 숫자 → 한글 (numberToHangul, numberToHangulMixed, susa, seosusa, days), 함수별 상수는 파일 내 private
 test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/... 직접 import
 ```
 
-의존 방향: `core/assemble.dart` → `_internal/hangul.dart` → `core/{combine_character,can_be_*,disassemble_to_groups,...}` → `types/` → `constants.dart`. `_internal/hangul.dart`가 core 위에 얹힌 조합 엔진이고, `assemble`만 다시 그걸 쓴다.
+의존 방향: `core/assemble.dart` → `core/{combine_character,can_be_*,disassemble_to_groups,remove_last_character,...}` → `types/` → `constants.dart`. `assemble.dart` 안의 private `_binaryAssemble*` 가 다른 core 함수 위에 얹힌 조합 엔진이다. `_internal/` 은 core 에 의존하지 않는다.
 
 ### 핵심 불변식: 자모는 "분해형" 문자열로 다룬다
 
 - 중성/종성의 정규 표현은 **분해된 다중 문자**다: `ㅘ`→`'ㅗㅏ'`, `ㄳ`→`'ㄱㅅ'`, 종성 없음→`''`.
 - `jungseongs`(21)/`jongseongs`(28) 리스트가 이 분해형으로 정의되어 있고, 리스트 **인덱스가 곧 유니코드 오프셋**이다: `0xAC00 + 초성idx×21×28 + 중성idx×28 + 종성idx`. 리스트 순서를 바꾸면 조합/분해가 전부 깨진다.
 - `Jungseong.tryParse`/`Jongseong.tryParse` 모두 합성형(`ㅘ`, `ㄳ`)을 분해형(`'ㅗㅏ'`, `'ㄱㅅ'`)으로 정규화한다. 저장값은 항상 분해형이다. (es-hangul은 종성을 정규화하지 않아 `canBeJongseong('ㄳ')`가 false — 의도적 차이)
-- `disassembleToGroups`가 분해의 원시 함수. `disassemble`은 그걸 flat join, `assemble`은 입력을 전부 분해한 뒤 `binaryAssemble`로 left-fold.
+- `disassembleToGroups`가 분해의 원시 함수. `disassemble`은 그걸 flat join, `assemble`은 입력을 전부 분해한 뒤 private `_binaryAssemble`로 left-fold.
 - `canBeJungseong('ㅗㅏ')`, `canBeJongseong('ㄱㅅ')`처럼 2글자 문자열을 받는 게 정상이다.
 
 ### 기타
 
-- `josa`: `hasBatchim`으로 이/가 계열 선택 + `으로/로` 계열은 ㄹ받침 예외 + 대문자 영어 약어는 `alphabetToKorean`으로 마지막 글자 발음을 치환해 판정.
+- `josa`: 선택 규칙은 `JosaOption.pick` 에 있다 — `afterBatchim`/`afterVowel` 필드 + ㄹ 받침 예외는 `afterRieul`(으로/로 계열). 와/과는 표기만 `label` 로 뒤집는다. 대문자 영어 약어는 `alphabetToKorean`으로 마지막 글자 발음을 치환해 판정.
 - `getChoseong`/`getJungseong`/`getJongseong`은 `unorm_dart` NFD 분해를 쓴다 (유일한 외부 의존).
 - `JosaOption` 이름 규칙: 앞 형태 로마자 + 뒤 형태 로마자(첫 글자 대문자) — `eulReul`=을/를, `euroRo`=으로/로. `toString()`은 `'을/를'`.
 

@@ -1,8 +1,9 @@
 import '../_internal/constants.dart' show alphabetToKorean;
 import 'disassemble_complete_character.dart';
-import 'has_batchim.dart';
 
 /// 조사 쌍. 이름 규칙: 앞 형태 로마자 + 뒤 형태 로마자(첫 글자 대문자) — `eulReul` = 을/를
+///
+/// 어떤 형태를 붙일지는 [pick] 이 정한다 — 받침 유무, ㄹ 받침 예외([afterRieul])가 전부 여기 데이터로 있다.
 enum JosaOption {
   /// 이/가
   iGa('이', '가'),
@@ -13,11 +14,11 @@ enum JosaOption {
   /// 은/는
   eunNeun('은', '는'),
 
-  /// 으로/로
-  euroRo('으로', '로'),
+  /// 으로/로 — ㄹ 받침 뒤에서는 '로' (지름길로)
+  euroRo('으로', '로', afterRieul: '로'),
 
-  /// 와/과
-  waGwa('와', '과'),
+  /// 와/과 — 다른 조사와 반대로 받침 없으면 '와', 있으면 '과'. 표기는 관례대로 '와/과'
+  waGwa('과', '와', label: '와/과'),
 
   /// 이나/나
   inaNa('이나', '나'),
@@ -35,24 +36,29 @@ enum JosaOption {
   ieyoYeyo('이에요', '예요'),
 
   /// 으로서/로서
-  euroseoRoseo('으로서', '로서'),
+  euroseoRoseo('으로서', '로서', afterRieul: '로서'),
 
   /// 으로써/로써
-  eurosseoRosseo('으로써', '로써'),
+  eurosseoRosseo('으로써', '로써', afterRieul: '로써'),
 
   /// 으로부터/로부터
-  eurobuteoRobuteo('으로부터', '로부터'),
+  eurobuteoRobuteo('으로부터', '로부터', afterRieul: '로부터'),
 
   /// 이라/라
   iraRa('이라', '라');
 
-  /// 받침 있는 단어에 붙는 형태 (이, 을, 은, 으로 ...)
-  final String first;
+  /// 받침 있는 단어 뒤 형태 (이, 을, 은, 과 …)
+  final String afterBatchim;
 
-  /// 받침 없는 단어에 붙는 형태 (가, 를, 는, 로 ...)
-  final String second;
+  /// 받침 없는 단어 뒤 형태 (가, 를, 는, 와 …)
+  final String afterVowel;
 
-  const JosaOption(this.first, this.second);
+  /// ㄹ 받침 뒤 형태. `null` 이면 [afterBatchim] 과 같다 — '으로/로' 계열만 '로' (지름길로)
+  final String? afterRieul;
+
+  final String? _label;
+
+  const JosaOption(this.afterBatchim, this.afterVowel, {this.afterRieul, String? label}) : _label = label;
 
   static final Map<String, JosaOption> _byLabel = {for (final option in values) option.toString(): option};
 
@@ -71,17 +77,28 @@ enum JosaOption {
   static JosaOption parse(String input) =>
       tryParse(input) ?? (throw ArgumentError.value(input, 'input', '유효한 조사 쌍이 아닙니다. 유효한 값: ${values.join(', ')}'));
 
-  @override
-  String toString() => '$first/$second';
-}
+  /// [word] 뒤에 붙을 형태를 고릅니다. 마지막 글자가 완성형 한글이 아니면 받침 없음으로 봅니다.
+  ///
+  /// ```dart
+  /// JosaOption.eulReul.pick('사과'); // '를'
+  /// JosaOption.eulReul.pick('책'); // '을'
+  /// JosaOption.euroRo.pick('지름길'); // '로' (ㄹ 받침 예외)
+  /// ```
+  String pick(String word) {
+    // es-hangul 과 동일: 빈 단어면 표기('을/를')의 앞 형태
+    if (word.isEmpty) return toString().split('/').first;
 
-/// '으로/로' 계열 조사
-final Set<JosaOption> _roJosa = {
-  JosaOption.euroRo,
-  JosaOption.euroseoRoseo,
-  JosaOption.eurosseoRosseo,
-  JosaOption.eurobuteoRobuteo,
-};
+    final last = disassembleCompleteCharacter(String.fromCharCode(word.runes.last));
+    if (last == null || last.jongseong.isEmpty) return afterVowel;
+    if (last.jongseong == 'ㄹ') return afterRieul ?? afterBatchim;
+
+    return afterBatchim;
+  }
+
+  /// `'을/를'` 형식
+  @override
+  String toString() => _label ?? '$afterBatchim/$afterVowel';
+}
 
 final _upperAlphabetOnly = RegExp(r'^[A-Z]+$');
 
@@ -97,29 +114,16 @@ String josa(String word, JosaOption josaOption) {
 
   // 대문자 영어 약어(URL, CSS)는 마지막 알파벳의 한글 발음으로 받침을 판정한다
   if (_upperAlphabetOnly.hasMatch(word)) {
-    final lastChar = word.substring(word.length - 1);
-    return '$word${josaPick(alphabetToKorean[lastChar] ?? lastChar, josaOption)}';
+    return '$word${josaOption.pick(alphabetToKorean[word[word.length - 1]]!)}';
   }
 
-  return '$word${josaPick(word, josaOption)}';
+  return '$word${josaOption.pick(word)}';
 }
 
-/// 조사를 선택만 해서 반환합니다.
+/// 조사를 선택만 해서 반환합니다. [JosaOption.pick] 과 같습니다.
 ///
 /// ```dart
 /// josaPick('사과', JosaOption.eulReul); // 를
 /// josaPick('책', JosaOption.eulReul); // 을
 /// ```
-String josaPick(String word, JosaOption josaOption) {
-  if (word.isEmpty) return josaOption.first;
-
-  final hasBatchimValue = hasBatchim(word);
-  // '으로/로' 계열은 종성이 ㄹ이면 받침이 있어도 '로' (지름길로)
-  final isJongseongRieul =
-      hasBatchimValue && disassembleCompleteCharacter(word.substring(word.length - 1))?.jongseong == 'ㄹ';
-  // 와/과는 다른 조사와 반대로 받침 없으면 앞 형태(와), 있으면 뒤 형태(과)
-  final flip = josaOption == JosaOption.waGwa || (isJongseongRieul && _roJosa.contains(josaOption));
-  final useFirst = flip ? !hasBatchimValue : hasBatchimValue;
-
-  return useFirst ? josaOption.first : josaOption.second;
-}
+String josaPick(String word, JosaOption josaOption) => josaOption.pick(word);
