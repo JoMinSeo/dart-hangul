@@ -16,11 +16,11 @@ dart test                                      # 전체 테스트
 dart test test/src/core/josa_test.dart         # 파일 단위
 dart test test/src/core/josa_test.dart --plain-name '주격조사'   # 단일 테스트
 dart analyze
-dart format --line-length 120 .                # 포맷
+dart format .                                  # 포맷 (120칸 — analysis_options.yaml 의 formatter.page_width)
 ```
 
 - 순수 Dart 패키지다 (`flutter` 의존 없음, dev 의존은 `test`/`lints`). `flutter test`가 아니라 `dart test`.
-- **포맷 line length는 120**이다. 기본값(80)으로 `dart format`을 돌리면 15개 파일이 바뀌니 반드시 `--line-length 120`.
+- 포맷 line length 는 120 — `analysis_options.yaml` 의 `formatter: page_width: 120` 이 적용되므로 `dart format .` 만으로 충분하다 (pub.dev 의 pana 도 이 설정을 읽는다).
 - `dart analyze`는 0 issues 가 기준이다.
 
 ## 구조
@@ -72,7 +72,7 @@ test/src/                   # lib/src와 1:1 미러, package:dart_hangul/src/...
 - 이미 main 에 커밋해 버렸다면 push 하지 말고 커밋을 브랜치로 옮긴다:
   `git switch -c <브랜치명>` (커밋이 새 브랜치로 따라옴) →
   `git branch -f main origin/main` (로컬 main 원복) → 새 브랜치에서 push + PR.
-- PR 전에 `dart test` / `dart analyze` / `dart format --line-length 120 --set-exit-if-changed .` 가 통과해야 한다.
+- PR 전에 `dart test` / `dart analyze` / `dart format --set-exit-if-changed .` 가 통과해야 한다.
 
 ## Release & Versioning (태그 관리)
 

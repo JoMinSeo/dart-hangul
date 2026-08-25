@@ -20,7 +20,8 @@
 
 ### 문서
 - README 를 pub.dev 공개용으로 재작성 — es-hangul 에서 영감을 받아 Dart 에 맞게 재설계했다는 포지셔닝, 설치·설계 절. (#16)
-- pubspec description 에서 "포팅" 표현 제거.
+- pubspec description 을 영어로 (pub.dev 는 영어 위주 description 을 요구). LICENSE 의 es-hangul 고지 문구를 "포팅" 에서 "영감·일부 파생" 으로.
+- `analysis_options.yaml` 에 `formatter: page_width: 120` — `dart format .` 만으로 120칸, pub.dev pana 포맷 검사 통과.
 
 ## 0.1.1
 
