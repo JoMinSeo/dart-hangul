@@ -13,16 +13,16 @@ import 'disassemble_to_groups.dart';
 /// removeLastCharacter('신세계'); // 신세ㄱ
 /// ```
 String removeLastCharacter(String words) {
-  final lastCharacter = words.split('').lastOrNull;
-  if (lastCharacter == null) return '';
+  if (words.isEmpty) return '';
 
-  final disassembleLastCharacter = disassembleToGroups(lastCharacter);
-  final lastCharacterWithoutLastAlphabet = excludeLastElement(disassembleLastCharacter[0]).rest;
+  // UTF-16 코드유닛이 아니라 코드포인트 단위로 마지막 글자를 잡는다 — 서로게이트 쌍(이모지 등)이 반쪽만 잘리지 않도록
+  final lastCharacter = String.fromCharCode(words.runes.last);
+  final head = words.substring(0, words.length - lastCharacter.length);
+
+  final lastCharacterWithoutLastAlphabet = excludeLastElement(disassembleToGroups(lastCharacter)[0]).rest;
 
   // 마지막 글자가 분해 불가능(예: 공백/기호)이라면 그 글자만 제거
-  if (lastCharacterWithoutLastAlphabet.isEmpty) {
-    return words.substring(0, words.length - 1);
-  }
+  if (lastCharacterWithoutLastAlphabet.isEmpty) return head;
 
   // 패턴 매칭으로 케이스 분리
   final result = switch (lastCharacterWithoutLastAlphabet) {
@@ -48,5 +48,5 @@ String removeLastCharacter(String words) {
     _ => lastCharacterWithoutLastAlphabet.join(),
   };
 
-  return '${words.substring(0, words.length - 1)}$result';
+  return '$head$result';
 }

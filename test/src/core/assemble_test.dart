@@ -21,5 +21,9 @@ void main() {
       expect(assemble(['ㄱ', 'ㅏ', '!', 'ㄴ', 'ㅏ']), equals('가!나'));
       expect(assemble(['ㅇ', 'ㅑ', '1', 'ㅎ', 'ㅏ']), equals('야1하'));
     });
+
+    test('서로게이트 쌍(이모지)은 쪼개지 않고 그대로 유지한다', () {
+      expect(assemble(['가', '😀', 'ㄱ']), equals('가😀ㄱ'));
+    });
   });
 }

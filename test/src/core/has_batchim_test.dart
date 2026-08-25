@@ -102,5 +102,10 @@ void main() {
         expect(hasBatchim('?', only: BatchimType.double), isFalse);
       });
     });
+
+    test('마지막 글자가 서로게이트 쌍(이모지)이면 false를 반환한다.', () {
+      expect(hasBatchim('값😀'), isFalse);
+      expect(hasBatchim('값😀', only: BatchimType.double), isFalse);
+    });
   });
 }

@@ -9,7 +9,7 @@ import '../core/disassemble.dart';
 /// assemble(['ㅇ', 'ㅏ', 'ㅂ', 'ㅓ', 'ㅈ', 'ㅣ']); // 아버지
 /// ```
 String assemble(List<String> fragments) {
-  final disassembled = disassemble(fragments.join('')).split('');
+  final disassembled = disassemble(fragments.join('')).runes.map(String.fromCharCode).toList();
 
   if (disassembled.isEmpty) return '';
 
