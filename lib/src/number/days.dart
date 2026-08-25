@@ -9,9 +9,9 @@
 /// days(30); // '서른날'
 /// ```
 ///
-/// 범위 밖이면 [ArgumentError] 를 던집니다.
+/// 범위 밖이면 [RangeError] 를 던집니다.
 String days(int number) {
-  if (number <= 0 || number > 30) throw ArgumentError('지원하지 않는 숫자입니다.');
+  if (number < 1 || number > 30) throw RangeError.range(number, 1, 30, 'number', '지원하지 않는 숫자입니다.');
 
   final tens = number ~/ 10 * 10;
   final ones = number % 10;

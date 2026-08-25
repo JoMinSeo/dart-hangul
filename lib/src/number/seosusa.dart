@@ -13,9 +13,9 @@ import 'number_to_hangul.dart';
 /// seosusa(100); // '백째'
 /// ```
 ///
-/// 1 미만이면 [ArgumentError] 를 던집니다.
+/// 1 미만이면 [RangeError] 를 던집니다.
 String seosusa(int number) {
-  if (number <= 0) throw ArgumentError('유효하지 않은 입력입니다. 1이상의 정수만 지원합니다.');
+  if (number < 1) throw RangeError.range(number, 1, null, 'number', '유효하지 않은 입력입니다. 1이상의 정수만 지원합니다.');
 
   if (number <= 99) return '${_ordinalWord(number)}째';
 

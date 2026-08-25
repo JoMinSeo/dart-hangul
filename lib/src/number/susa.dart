@@ -13,9 +13,9 @@
 /// susa(21, classifier: true); // '스물한'
 /// ```
 ///
-/// 범위 밖이면 [ArgumentError] 를 던집니다.
+/// 범위 밖이면 [RangeError] 를 던집니다.
 String susa(int number, {bool classifier = false}) {
-  if (number <= 0 || number > 100) throw ArgumentError('지원하지 않는 숫자입니다.');
+  if (number < 1 || number > 100) throw RangeError.range(number, 1, 100, 'number', '지원하지 않는 숫자입니다.');
 
   return classifier ? _classifierWord(number) : _numberWord(number);
 }

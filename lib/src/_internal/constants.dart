@@ -2,8 +2,8 @@
 /// = '각힣' 의 NFD 분해 결과. 현대 자모 범위만 포함한다.
 const List<int> jasoHangulNfd = [0x1100, 0x1161, 0x11A8, 0x1112, 0x1175, 0x11C2];
 
-final int completeHangulStartCharCode = '가'.codeUnitAt(0);
-final int completeHangulEndCharCode = '힣'.codeUnitAt(0);
+const int completeHangulStartCharCode = 0xAC00; // 가
+const int completeHangulEndCharCode = 0xD7A3; // 힣
 
 const int numberOfJongseong = 28;
 const int numberOfJungseong = 21;
@@ -92,41 +92,18 @@ const List<String> choseongs = [
   'ㅎ',
 ];
 
-/// 중성으로 올 수 있는 한글 글자
-final List<String> jungseongs = disassembledVowelsByVowel.values.toList();
+/// 중성으로 올 수 있는 한글 글자 (분해형). **인덱스가 곧 유니코드 오프셋**이라 순서를 바꾸면 조합/분해가 깨진다.
+/// `disassembledVowelsByVowel` 의 값 순서와 같다 — constants_test 가 검증한다.
+const List<String> jungseongs = [
+  'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅗㅏ', 'ㅗㅐ', 'ㅗㅣ', 'ㅛ', 'ㅜ', 'ㅜㅓ', 'ㅜㅔ', 'ㅜㅣ', 'ㅠ', 'ㅡ', 'ㅡㅣ', 'ㅣ', //
+];
 
-/// 종성으로 올 수 있는 한글 글자
-final List<String> jongseongs =
-    [
-      '',
-      'ㄱ',
-      'ㄲ',
-      'ㄳ',
-      'ㄴ',
-      'ㄵ',
-      'ㄶ',
-      'ㄷ',
-      'ㄹ',
-      'ㄺ',
-      'ㄻ',
-      'ㄼ',
-      'ㄽ',
-      'ㄾ',
-      'ㄿ',
-      'ㅀ',
-      'ㅁ',
-      'ㅂ',
-      'ㅄ',
-      'ㅅ',
-      'ㅆ',
-      'ㅇ',
-      'ㅈ',
-      'ㅊ',
-      'ㅋ',
-      'ㅌ',
-      'ㅍ',
-      'ㅎ',
-    ].map((consonant) => disassembledConsonantsByConsonant[consonant]!).toList();
+/// 종성으로 올 수 있는 한글 글자 (분해형, 0번은 종성 없음). **인덱스가 곧 유니코드 오프셋**이라 순서를 바꾸면 조합/분해가 깨진다.
+/// `disassembledConsonantsByConsonant` 로 분해한 결과와 같다 — constants_test 가 검증한다.
+const List<String> jongseongs = [
+  '', 'ㄱ', 'ㄲ', 'ㄱㅅ', 'ㄴ', 'ㄴㅈ', 'ㄴㅎ', 'ㄷ', 'ㄹ', 'ㄹㄱ', 'ㄹㅁ', 'ㄹㅂ', 'ㄹㅅ', 'ㄹㅌ', 'ㄹㅍ', 'ㄹㅎ', //
+  'ㅁ', 'ㅂ', 'ㅂㅅ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ', //
+];
 
 const Map<String, String> alphabetToKorean = {
   'A': '에이',
