@@ -33,6 +33,11 @@ build/
 
 ## LLM
 Agents.md
+CLAUDE.md
+
 .agents/
-skills-lock.json
+.claude/
 .gstack/
+
+skills-lock.json
+
