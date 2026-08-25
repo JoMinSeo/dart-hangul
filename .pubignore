@@ -34,6 +34,7 @@ build/
 ## LLM
 Agents.md
 .gstack/
+.agent/
 
 # pub.dev 배포 제외 — 개발 전용 (.pubignore 는 .gitignore 를 대체하므로 위 항목을 그대로 둔다)
 CLAUDE.md
